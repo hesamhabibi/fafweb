@@ -1,0 +1,45 @@
+// ------------------------------------------------------------------------------------------------------------- plugins
+@import 'node_modules/@splidejs/react-splide/dist/css/splide.min.css';
+@import 'node_modules/react-toastify/dist/ReactToastify.css';
+
+// ---------------------------------------------------------------------------------------------------------------------
+@import "../assets/styles/_bootstrap-custom/_bootstrap-custom.rtl.css";
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../assets/styles/variables";
+@import "../assets/styles/bootstrap/variables";
+@import "../assets/styles/bootstrap/variables-dark";
+
+@import "../assets/styles/plugins";
+@import "../assets/styles/default";
+
+// -------------------------------------------------------------------------------------------------------------- layout
+@import "../components/Layout/Header/Header";
+@import "../components/Layout/Main/Main";
+@import "../components/Layout/Footer/Footer";
+
+// ------------------------------------------------------------------------------------------------------------- widgets
+@import "../components/common/widgets/BannerSlider/BannerSlider";
+@import "../components/common/widgets/Banner/Banner";
+@import "../components/common/widgets/BannerGrid/BannerGrid";
+@import "../components/common/widgets/SliderText/SliderText";
+@import "../components/common/widgets/SliderImageText2/SliderImageText2";
+@import "../components/common/widgets/SliderImage/SliderImage";
+
+// ---------------------------------------------------------------------------------------------------------- offcanvses
+@import "../components/offcanvses/Menu/Menu";
+@import "../components/offcanvses/Search/Search";
+@import "../components/offcanvses/Account/Account";
+
+// -------------------------------------------------------------------------------------------------------------- modals
+@import "../components/modals/Fake/Fake";
+@import "../components/modals/Auth/Auth";
+@import "../components/modals/QuickView/QuickView";
+
+// --------------------------------------------------------------------------------------------------------------- pages
+@import "../components/pages/Home/Home";
+@import "../components/pages/Product/Product";
+@import "../components/pages/Search/Search";
+@import "../components/pages/Cart/Cart";
+@import "../components/pages/Checkout/Checkout";
+@import "../components/pages/Account/Account";

@@ -1,0 +1,8 @@
+@import "../assets/styles/variables";
+@import "../assets/styles/bootstrap/_bootstrap-custom.rtl.css";
+@import "../assets/styles/default";
+
+@import "../node_modules/bootstrap/scss/functions";
+
+@import "../components/Layout/Header/Header";
+@import "../components/Layout/Main/Main";

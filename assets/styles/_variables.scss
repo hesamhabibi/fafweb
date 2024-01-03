@@ -1,0 +1,21 @@
+$primary: #c29a52;
+// تمام رنگ های تیره براساس secondary سنجیده شوند
+$secondary: #1e1e20;
+
+$success: green;
+$info: blue;
+$warning: yellow;
+$danger: red;
+
+$white: #fff;
+
+//هر 5 واحد کاهش B در Photoshop معادل منفی 4.5% می باشد
+$dark: adjust-color($secondary, $lightness: -4.5%);
+//$light: opaque($secondary, rgba(white, .87));
+$light: opaque(#fff, rgba($secondary, .04));
+
+$body-bg: $white;
+$body-bg-dark: $dark;
+
+$body-color: opaque($body-bg, rgba($secondary, .87));
+$body-color-dark: opaque($body-bg-dark, rgba($white, .87));

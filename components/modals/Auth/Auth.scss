@@ -1,0 +1,64 @@
+#modalAuth {
+  --bs-modal-width: 440px;
+
+  .modal-content {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(12deg, rgba(var(--bs-primary-rgb), .2) 25%, rgba(var(--bs-primary-rgb), .04) 55%);
+    }
+  }
+
+  .logo {
+    //width: 72px;
+    //height: auto;
+    width: auto;
+    height: 40px;
+  }
+
+  .step-1, .step-2, .step-3 {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .15s ease-out .15s, transform .15s ease-out .15s, visibility 0s linear .15s;
+
+    &.out {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity .15s ease-in, transform .15s ease-in, visibility 0s linear .15s;
+    }
+  }
+
+  .step-1 {
+    &.out {
+      transform: translateX(30px);
+    }
+  }
+
+  .step-2 {
+    &.out {
+      transform: translateX(-30px);
+    }
+  }
+
+  .step-3 {
+    &.out {
+      transform: translateX(-30px);
+    }
+
+    &:not(.out) {
+      + .step-2 {
+        transform: translateX(30px);
+      }
+    }
+  }
+
+  p {
+    min-height: 45px;
+  }
+
+  #modalAuthOTP {
+    text-indent: .3em;
+  }
+}

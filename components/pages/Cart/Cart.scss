@@ -1,0 +1,41 @@
+[data-page="cart"] {
+  #pageCart {
+    #ulProducts {
+      li {
+        + li {
+          margin-top: 1rem;
+        }
+
+        picture {
+          max-width: 120px;
+        }
+
+        a {
+          --bs-link-color-rgb: var(--bs-body-color-rgb);
+
+          &:hover {
+            --bs-link-color-rgb: var(--bs-primary-rgb);
+          }
+        }
+
+        .price {
+          font-size: 18px;
+          letter-spacing: -.01em;
+        }
+      }
+    }
+
+    #colSummery {
+      min-width: 360px;
+
+      .price {
+        letter-spacing: -.01em;
+      }
+
+      hr.gradient {
+        height: 1px;
+        background: linear-gradient(to right, transparent 0, var(--bs-border-color) 1.5rem, var(--bs-border-color) calc(100% - 1.5rem), transparent 100%);
+      }
+    }
+  }
+}

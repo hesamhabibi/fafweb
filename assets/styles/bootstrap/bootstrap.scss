@@ -1,0 +1,427 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+
+@import "../variables";
+@import "./variables";
+@import "./variables-dark";
+
+@import "../../../node_modules/bootstrap/scss/maps";
+//@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/utilities";
+
+$utilities: map-merge($utilities, (
+  "word-spacing": (
+    property: word-spacing,
+    class: ws,
+    values: (
+      n3: -.3em,
+      n2: -.2em,
+      n1: -.1em,
+      n1-2: -.05em,
+    )
+  ),
+  "letter-spacing": (
+    property: letter-spacing,
+    class: ls,
+    values: (
+      '1-4': .025em,
+      '1-2': .05em,
+      1: .1em,
+      2: .2em,
+      3: .3em,
+    )
+  ),
+  "border-opacity": map-merge(map-get($utilities, "border-opacity"), (
+    values: map-merge(map-get(map-get($utilities, "border-opacity"), "values"), (
+      0: 0,
+      4: .04
+    ))
+  )),
+  "opacity": map-merge(map-get($utilities, "opacity"), (
+    values: map-merge(map-get(map-get($utilities, "opacity"), "values"), (
+      12: .12,
+      38: .38,
+      54: .54,
+      87: .87
+    ))
+  )),
+  "bg-opacity": map-merge(map-get($utilities, "bg-opacity"), (
+    values: map-merge(map-get(map-get($utilities, "bg-opacity"), "values"), (
+      0: 0,
+      4: .04,
+      12: .12,
+      54: .54,
+      87: .87
+    ))
+  )),
+  "text-opacity": map-merge(map-get($utilities, "text-opacity"), (
+    values: map-merge(map-get(map-get($utilities, "text-opacity"), "values"), (
+      0: 0,
+      12: .12,
+      18: .18,
+      38: .38,
+      54: .54,
+      87: .87
+    ))
+  )),
+  "shadow": map-merge(map-get($utilities, "shadow"), (
+    values: map-merge(map-get(map-get($utilities, "shadow"), "values"), (
+      1: var(--bs-box-shadow-1),
+      '1-reverse': var(--bs-box-shadow-1-reverse),
+      '1-around': var(--bs-box-shadow-1-around),
+    ))
+  )),
+  "width": map-merge(map-get($utilities, "width"), (
+    values: map-merge(map-get(map-get($utilities, "width"), "values"), (
+      1: 1px,
+    ))
+  )),
+  "viewport-width": (
+    property: width,
+    class: vw,
+    values: (100: calc(var(--vw, 1vw) * 100))
+  ),
+  "viewport-height": (
+    property: height,
+    class: vh,
+    values: (100: calc(var(--vh, 1vh) * 100))
+  ),
+  "min-viewport-width": (
+    property: min-width,
+    class: min-vw,
+    values: (100: calc(var(--vw, 1vw) * 100))
+  ),
+  "min-viewport-height": (
+    property: min-height,
+    class: min-vh,
+    values: (100: calc(var(--vh, 1vh) * 100))
+  ),
+  "color": map-merge(map-get($utilities, "color"), (
+    values: map-merge(map-get(map-get($utilities, "color"), "values"), (
+      transparent: transparent,
+      body-54-opaque: var(--#{$prefix}#{'54'}-color-opaque),
+      body-38-opaque: var(--#{$prefix}#{'38'}-color-opaque)
+    ))
+  )),
+  "line-height": map-merge(map-get($utilities, "line-height"), (
+    values: map-merge(map-get(map-get($utilities, "line-height"), "values"), (
+      0: 0,
+      md: 1.75,
+    ))
+  )),
+  "rounded": map-merge(map-get($utilities, "rounded"), (
+    values: map-merge(map-get(map-get($utilities, "rounded"), "values"), (
+      '5-75': 1.5rem,
+    ))
+  )),
+  "rounded-top": map-merge(map-get($utilities, "rounded-top"), (
+    values: map-merge(map-get(map-get($utilities, "rounded-top"), "values"), (
+      '5-75': 1.5rem,
+    ))
+  )),
+  "font-weight": map-merge(map-get($utilities, "font-weight"), (
+    values: map-merge(map-get(map-get($utilities, "font-weight"), "values"), (
+      thin: 100,
+      extra-light: 200,
+    ))
+  )),
+));
+
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+// ---------------------------------------------------------------------------------------------------------------------
+:root {
+  --bs-box-shadow-1: 0 3px 2px -2px rgba(0, 0, 0, .1);
+  --bs-box-shadow-1-reverse: 0 -3px 2px -2px rgba(0, 0, 0, .1);
+  //--bs-box-shadow-1-around: 0 -2px 2px -2px rgba(0, 0, 0, .1), 3px 0 2px -2px rgba(0, 0, 0, .1), 0 3px 2px -2px rgba(0, 0, 0, .1), -3px 0 2px -2px rgba(0, 0, 0, .1);
+  --bs-box-shadow-1-around: 0 0 2px 0 rgba(0, 0, 0, .14), 0 1px 2px 0 rgba(0, 0, 0, .1);
+  --bs-font-size-sm: calc(13 / 16 * 1rem);
+
+  @media(max-width: 991px) {
+    --#{$prefix}body-font-size: calc(13 / 16 * 1rem);
+    --#{$prefix}body-line-height: 1.4;
+    --bs-font-size-sm: calc(11 / 16 * 1rem);
+  }
+
+  &:not([data-#{$prefix}theme="dark"]) {
+    --#{$prefix}#{'54'}-color-opaque: #{opaque($body-bg, rgba($body-color, .54))};
+    --#{$prefix}#{'38'}-color-opaque: #{opaque($body-bg, rgba($body-color, .38))};
+    --#{$prefix}body-color-dark: #{$body-color-dark};
+    --#{$prefix}body-color-dark-rgb: #{to-rgb($body-color-dark)};
+    --#{$prefix}#{'54'}-color-opaque-dark: #{opaque($body-bg-dark, rgba($body-color-dark, .54))};
+    --#{$prefix}#{'54'}-color-opaque-dark-rgb: #{to-rgb(opaque($body-bg-dark, rgba($body-color-dark, .54)))};
+    --#{$prefix}#{'38'}-color-opaque-dark: #{opaque($body-bg-dark, rgba($body-color-dark, .38))};
+    --#{$prefix}#{'38'}-color-opaque-dark-rgb: #{to-rgb(opaque($body-bg-dark, rgba($body-color-dark, .38)))};
+  }
+
+  &[data-#{$prefix}theme="dark"] {
+    --#{$prefix}#{'54'}-color-opaque: #{opaque($body-bg-dark, rgba($body-color-dark, .54))};
+    --#{$prefix}#{'38'}-color-opaque: #{opaque($body-bg-dark, rgba($body-color-dark, .38))};
+    --#{$prefix}body-color-light: #{$body-color};
+    --#{$prefix}body-color-light-rgb: #{to-rgb($body-color)};
+    --#{$prefix}#{'54'}-color-opaque-light: #{opaque($body-bg, rgba($body-color, .54))};
+    --#{$prefix}#{'54'}-color-opaque-light-rgb: #{to-rgb(opaque($body-bg, rgba($body-color, .54)))};
+    --#{$prefix}#{'38'}-color-opaque-light: #{opaque($body-bg, rgba($body-color, .38))};
+    --#{$prefix}#{'38'}-color-opaque-light-rgb: #{to-rgb(opaque($body-bg, rgba($body-color, .38)))};
+  }
+}
+
+html {
+  &:not([data-#{$prefix}theme="dark"]) {
+    .text-body-dark {
+      color: $body-color-dark !important;
+    }
+  }
+}
+
+.btn-close {
+  background-size: 24px;
+  // مانند $btn-transition می باشد
+  transition: $btn-transition, opacity .15s ease-in-out;
+}
+
+[data-#{$prefix}theme="dark"] {
+  .btn-close {
+    --bs-btn-close-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(#{to-rgb($body-color-dark)})' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 6 6 18'/><path d='m6 6 12 12'/></svg>");
+  }
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.dropdown-menu {
+  transform-origin: top left;
+  display: block;
+  transform: scale3d(.9, .9, 1);
+  visibility: hidden;
+  opacity: 0;
+  transition: transform .1s ease-in, opacity .1s ease-in, visibility .1s linear;
+
+  &.show {
+    transform: scale3d(1, 1, 1);
+    visibility: visible;
+    opacity: 1;
+    transition: transform .1s ease-out, opacity .1s ease-out, visibility 0s linear;
+  }
+}
+
+.dropdown-menu-end {
+  transform-origin: top right;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+}
+
+.form-control {
+  min-height: $form-check-min-height;
+  @media(max-width: 991px) {
+    line-height: var(--#{$prefix}body-line-height);
+  }
+}
+
+input {
+  font-feature-settings: inherit;
+  caret-color: var(--bs-primary);
+}
+
+.btn {
+  font-feature-settings: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:not(.btn-sm) {
+    min-height: $form-check-min-height;
+  }
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+  --bs-btn-disabled-color: #fff;
+}
+
+.btn-outline-primary {
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+.btn-secondary {
+  --bs-btn-hover-bg: #{adjust-color($secondary, $lightness: 9%)};
+}
+
+.btn-sm {
+  min-height: 30px;
+}
+
+.btn-icon {
+  padding: 0;
+  min-width: $form-check-min-height;
+  border-radius: 18px;
+  border-width: 0;
+  line-height: 1;
+}
+
+.caret {
+  > circle {
+    visibility: hidden;
+  }
+}
+
+.show > .caret {
+  -webkit-transform: rotateX(180deg);
+  transform: rotateX(180deg);
+}
+
+a {
+  transition: #{$btn-transition};
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+
+  .form-check-input {
+    margin-top: 0;
+    margin-right: .5rem;
+    background-size: initial;
+  }
+}
+
+.form-switch {
+  .form-check-input {
+    margin-top: 0;
+    margin-right: 0;
+    background-size: calc(#{$form-check-input-width} - 4px);
+    cursor: pointer;
+
+    &:not(:checked) {
+      &:focus {
+        --bs-form-switch-bg: #{$form-switch-bg-image};
+      }
+
+      //&:hover {
+      //  --bs-form-switch-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'><circle r='8' cx='10' cy='10' fill='rgba(#{to-rgb($secondary)}, .38)'/></svg>");;
+      //}
+    }
+
+    + label {
+      padding-left: .5rem;
+    }
+  }
+}
+
+.modal-header {
+  @media (max-width: 991px) {
+    --bs-modal-header-padding: .5rem .75rem .5rem .5rem;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .btn-close {
+    margin-right: -.75rem;
+    border-radius: 50%;
+  }
+}
+
+[data-#{$prefix}theme="dark"] {
+  .modal-header {
+    .btn-close {
+      @media(max-width: 991px) {
+        --bs-btn-close-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(#{to-rgb($body-color-dark)})' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m12 19-7-7 7-7'/><path d='M19 12H5'/></svg>");
+      }
+    }
+  }
+}
+
+.modal-content.rounded-top-5 {
+  @media(max-width: 991px) {
+    --bs-border-radius-xxl: 1.5rem;
+  }
+}
+
+.offcanvas.rounded-5 {
+  @media(max-width: 991px) {
+    --bs-border-radius-xxl: 1.5rem;
+  }
+}
+
+.offcanvas-header {
+  @media(max-width: 991px) {
+    --bs-offcanvas-padding-y: #{map-get($spacers, 2)};
+    --bs-offcanvas-padding-x: #{map-get($spacers, 2)};
+    justify-content: start;
+  }
+
+  .btn-close {
+    padding: 0;
+    margin-top: 0;
+    margin-right: -.75rem;
+    margin-bottom: 0;
+    border-radius: 50%;
+    @media(max-width: 991px) {
+      --bs-btn-close-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(#{to-rgb($btn-close-color)})' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m12 19-7-7 7-7'/><path d='M19 12H5'/></svg>");
+      order: -1;
+      margin-right: .5rem;
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+    }
+  }
+}
+
+[data-#{$prefix}theme="dark"] {
+  .offcanvas-header {
+    .btn-close {
+      @media(max-width: 991px) {
+        --bs-btn-close-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(#{to-rgb($body-color-dark)})' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m12 19-7-7 7-7'/><path d='M19 12H5'/></svg>");
+      }
+    }
+  }
+}
+
+.container-xxl {
+  @media (min-width: 1400px) {
+    max-width: 1676px;
+  }
+  @media(min-width: 992px) {
+    --bs-gutter-x: 3rem;
+  }
+}
+
+.accordion-button {
+  &::after {
+    margin-right: -4px;
+  }
+}
+
+.pagination {
+  --bs-pagination-font-size: 14px;
+  line-height: 43px;
+}
+
+.page-item {
+  + .page-item {
+    margin-left: .25rem;
+  }
+}
+
+.page-link {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 20px !important;
+}
+
+.alert {
+  display: flex;
+}

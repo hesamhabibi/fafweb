@@ -1,0 +1,238 @@
+.splide__pagination li {
+  line-height: 0;
+}
+
+.splide__pagination__page {
+  background: rgba(var(--bs-body-color-rgb), .25);
+  border-radius: 4px;
+  //width: 6px;
+  //height: 6px;
+  margin: 4px 4px 0 4px;
+  opacity: 1;
+  transition: transform 0.2s linear;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--bs-primary);
+    transform: translateX(100%);
+    transition: transform 0s linear;
+  }
+
+  &.is-active {
+    background: rgba(var(--bs-body-color-rgb), .12);
+    transform: initial;
+    //width: 18px;
+    width: 24px;
+
+    &:before {
+      transform: translateX(0);
+      transition-duration: var(--transition-duration);
+    }
+  }
+}
+
+//--------------------------------------------------------------------------------------------------------- react-slider
+
+.react-slider {
+  --track-size: 4px;
+  height: var(--track-size);
+  border-radius: calc(var(--track-size) / 2);
+  background-color: rgba(var(--bs-primary-rgb), .25);
+
+  .track {
+    top: 50%;
+    margin-top: calc(var(--track-size) / 2 * -1);
+    height: var(--track-size);
+
+    &.track-1 {
+      background-color: var(--bs-primary);
+      border-radius: calc(var(--track-size) / 2);
+    }
+  }
+
+  .thumb {
+    --thumb-size: calc(var(--track-size) * 5);
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    top: calc(((var(--thumb-size) / 2) - (var(--track-size) / 2)) * -1);
+    cursor: pointer;
+    outline: 0 solid rgba(var(--bs-primary-rgb), .12);
+    transition: outline-width .1s, outline-color .15s;
+    box-shadow: 0 2px 2px rgba(var(--bs-primary-rgb), .38);
+
+    &:hover {
+      outline-width: 12px;
+    }
+
+    &:active {
+      outline-color: rgba(var(--bs-primary-rgb), .25);
+    }
+
+    &.thumb-0 {
+      margin-left: -1px;
+    }
+
+    &.thumb-1 {
+      margin-left: 1px;
+    }
+  }
+}
+
+//------------------------------------------------------------------------------------------------------- react-toastify
+
+:root {
+  //--toastify-color-light: #fff;
+  --toastify-color-dark: var(--bs-secondary);
+  //--toastify-color-info: #3498db;
+  //--toastify-color-success: #07bc0c;
+  //--toastify-color-warning: #f1c40f;
+  //--toastify-color-error: #e74c3c;
+  //--toastify-color-transparent: rgba(255, 255, 255, 0.7);
+  //--toastify-icon-color-info: var(--toastify-color-info);
+  //--toastify-icon-color-success: var(--toastify-color-success);
+  //--toastify-icon-color-warning: var(--toastify-color-warning);
+  //--toastify-icon-color-error: var(--toastify-color-error);
+  --toastify-toast-width: 320px;
+  //--toastify-toast-background: #fff;
+  --toastify-toast-min-height: 64px;
+  --toastify-toast-max-height: 800px;
+  --toastify-font-family: var(--bs-font-sans-serif);
+  //--toastify-z-index: 9999;
+  //--toastify-text-color-light: #757575;
+  --toastify-text-color-dark: #fff;
+  //--toastify-text-color-info: #fff;
+  //--toastify-text-color-success: #fff;
+  //--toastify-text-color-warning: #fff;
+  //--toastify-text-color-error: #fff;
+  //--toastify-spinner-color: #616161;
+  //--toastify-spinner-color-empty-area: #e0e0e0;
+  //--toastify-color-progress-light: linear-gradient( to right, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55 );
+  --toastify-color-progress-dark: var(--bs-primary);
+  //--toastify-color-progress-info: var(--toastify-color-info);
+  //--toastify-color-progress-success: var(--toastify-color-success);
+  //--toastify-color-progress-warning: var(--toastify-color-warning);
+  //--toastify-color-progress-error: var(--toastify-color-error);
+}
+
+@media only screen and (max-width: 480px) {
+  .Toastify__toast-container {
+    width: 100%;
+  }
+}
+
+.Toastify__toast {
+  //position: relative;
+  //min-height: var(--toastify-toast-min-height);
+  //box-sizing: border-box;
+  //margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: var(--bs-border-radius-lg);
+  box-shadow: var(--bs-box-shadow);
+  font-family: inherit;
+  @media only screen and (max-width: 480px) {
+    border-radius: 0;
+  }
+}
+
+.Toastify__toast-body {
+  padding: 0;
+  font-weight: 200;
+}
+
+.Toastify__progress-bar {
+  height: 2px;
+}
+
+.Toastify--animate {
+  animation-duration: 0.2s;
+
+  &.Toastify__slide-exit--bottom-center {
+    animation-duration: .8s;
+  }
+}
+
+.Toastify {
+  .btn-close {
+    box-shadow: initial;
+  }
+}
+
+//--------------------------------------------------------------------------------------------------  next-nprogress-bar
+
+#nprogress {
+  //-webkit-transform: scaleX(-1);
+  //transform: scaleX(-1);
+}
+
+//---------------------------------------------------------------------------------------------------------- list bullet
+
+.list-bullet {
+  padding-right: 0;
+  list-style: none;
+
+  li {
+    padding-right: 1rem;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      border-radius: 4px;
+      background-color: currentColor;
+      margin-right: -1rem;
+      margin-left: calc(1rem - 4px);
+    }
+  }
+}
+
+//---------------------------------------------------------------------------------------------------------------- chips
+
+.chips {
+  .chips-item {
+    display: flex;
+    align-items: center;
+    border-radius: $form-check-min-height;
+
+    &:not(.clear-all) {
+      background-color: rgba(var(--bs-secondary-rgb), .04);
+      padding: .5rem .75rem;
+
+      .btn {
+        --bs-btn-color: #{opaque(#fff, rgba($secondary, .54))};
+        --bs-btn-hover-color: var(--bs-primary);
+        margin-top: -.5rem;
+        margin-bottom: -.5rem;
+        margin-left: -.75rem;
+      }
+    }
+
+    &.clear-all {
+      //background-color: rgba(var(--bs-primary-rgb), .07);
+      .btn {
+        --bs-btn-padding-x: 0;
+        //--bs-btn-padding-x: .75rem;
+      }
+    }
+
+    > span {
+      display: flex;
+
+      > span {
+        margin-left: .25rem;
+        color: var(--bs-tertiary-color);
+      }
+    }
+
+    .btn {
+      min-width: calc(#{$form-check-min-height} - 2px);
+      min-height: calc(#{$form-check-min-height} - 2px);
+    }
+  }
+}

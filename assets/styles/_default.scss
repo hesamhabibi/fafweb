@@ -1,0 +1,44 @@
+.flip-h {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.flip-v {
+  -webkit-transform: rotateX(180deg);
+  transform: rotateX(180deg);
+}
+
+.font-en {
+  font-feature-settings: initial;
+}
+
+.font-tabular {
+  font-feature-settings: 'tnum';
+  &.font-fa {
+    font-feature-settings: 'tnum', 'ss01';
+  }
+}
+
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}
+
+.hidden-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  //scrollbar-gutter: stable both-edges;
+}
+
+html[dir="rtl"] {
+  body {
+    font-feature-settings: 'ss01';
+  }
+}

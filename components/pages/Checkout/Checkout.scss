@@ -1,0 +1,151 @@
+[data-page^="checkout-"] {
+  #header, #main > div:first-child, #footer {
+    display: none;
+  }
+
+  #main {
+    display: flex;
+  }
+
+  #pageCheckout {
+    @media (min-width: 1400px) {
+      .container-xxl {
+        max-width: 1320px
+      }
+    }
+
+    .navbar-brand svg {
+      width: auto;
+      height: 40px;
+    }
+
+    .steps {
+      max-width: 700px;
+
+      > div {
+        > div {
+          &:not(:first-child):not(.active) {
+            a {
+              color: #{opaque($body-tertiary-bg, rgba($primary, .54))};
+
+              &:hover {
+                color: var(--bs-primary);
+              }
+            }
+          }
+
+          &.line {
+            &::before {
+              content: '';
+              height: 1px;
+              background-color: rgba(var(--bs-primary-rgb), .38);
+              position: absolute;
+              right: 1.5rem;
+              left: 1.5rem;
+              top: 50%;
+              margin-top: 2px;
+              z-index: 0;
+              transition: $nav-link-transition;
+            }
+          }
+
+          &.active {
+            cursor: default;
+
+            a {
+              color: var(--bs-primary);
+            }
+
+            ~ div {
+              cursor: default;
+
+              &::before {
+                background-color: rgba(var(--bs-body-color-rgb), .12);
+              }
+
+              a {
+                color: #{opaque($body-tertiary-bg, rgba($body-color, .38))} !important;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .shipping-types, .shipping-methods, .offices {
+      .form-check-label {
+        padding-right: .5rem;
+      }
+    }
+
+    > div:nth-child(2) {
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        height: 100%;
+        border-top-right-radius: calc(var(--bs-border-radius-xl) + 1.5rem);
+        border-top-left-radius: calc(var(--bs-border-radius-xl) + 1.5rem);
+        outline: 3rem solid var(--bs-tertiary-bg);
+      }
+    }
+
+    //.shipping-types, .shipping-methods {
+    //  input {
+    //    + label {
+    //      &::after {
+    //        content: '';
+    //        position: absolute;
+    //        border-radius: var(--bs-border-radius-xxl);
+    //        cursor: pointer;
+    //        z-index: 1;
+    //      }
+    //    }
+    //
+    //    &:not(:checked) {
+    //      + label {
+    //        &::after {
+    //          inset: -1px;
+    //          border: 1px $border-style $border-color;
+    //        }
+    //      }
+    //    }
+    //
+    //    &:checked {
+    //      + label {
+    //        &::after {
+    //          inset: 0;
+    //          background-color: rgba(var(--bs-primary-rgb), .12);
+    //        }
+    //      }
+    //    }
+    //  }
+    //}
+
+    .payment-methods {
+      .form-check-label {
+        padding-right: .5rem;
+      }
+    }
+
+    .test {
+      label {
+        padding-right: .5rem;
+      }
+    }
+
+    #colSummery {
+      min-width: 360px;
+
+      .price {
+        letter-spacing: -.01em;
+      }
+
+      hr.gradient {
+        height: 1px;
+        background: linear-gradient(to right, transparent 0, var(--bs-border-color) 1.5rem, var(--bs-border-color) calc(100% - 1.5rem), transparent 100%);
+      }
+    }
+  }
+}

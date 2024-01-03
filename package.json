@@ -1,0 +1,45 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "bootstrap-custom": "sass --no-source-map assets/styles/bootstrap/bootstrap.scss assets/styles/_bootstrap-custom/_bootstrap-custom.css",
+    "rtlcss": "rtlcss assets/styles/_bootstrap-custom/_bootstrap-custom.css assets/styles/_bootstrap-custom/_bootstrap-custom.rtl.css",
+    "bootstrap-rtl": "npm run bootstrap-custom && npm run rtlcss"
+  },
+  "rtlcssConfig": {},
+  "dependencies": {
+    "@apollo/client": "^3.8.8",
+    "@splidejs/react-splide": "^0.7.12",
+    "bootstrap": "^5.3.2",
+    "cookies-next": "^4.0.0",
+    "graphql": "^16.8.1",
+    "js-cookie": "^3.0.5",
+    "lucide-react": "^0.288.0",
+    "next": "13.5.4",
+    "next-nprogress-bar": "^2.1.2",
+    "object-path-immutable": "^4.1.2",
+    "react": "^18",
+    "react-bootstrap": "^2.9.0",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^18",
+    "react-hook-form": "^7.49.2",
+    "react-input-mask": "^2.0.4",
+    "react-scrollspy": "^3.4.3",
+    "react-select": "^5.8.0",
+    "react-slider": "^2.0.6",
+    "react-toastify": "^9.1.3",
+    "rtlcss": "^4.1.1",
+    "sass": "^1.69.3",
+    "vazirmatn": "^33.0.3"
+  },
+  "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.4"
+  }
+}

@@ -1,0 +1,14 @@
+#offcanvasAccount {
+  --bs-offcanvas-width: 360px;
+
+  .nav-link {
+    &:hover {
+      background-color: var(--bs-tertiary-bg);
+    }
+  }
+}
+
+#header a + #offcanvasAccount {
+  visibility: hidden !important;
+  position: fixed !important;
+}

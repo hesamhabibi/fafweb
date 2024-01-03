@@ -1,0 +1,162 @@
+stages:
+  - versioning
+  - test
+  - build
+  - deploy
+
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_DRIVER: overlay2
+  NEXUS_ADDR: "45.81.17.109:8084"
+  NEXUS_USER: "fafa"
+  REMOTE_SSH_PORT: "8522"
+  REMOTE_SSH_USER: gitlab_ssh
+  SERVICE_NAME: "template"
+  DOCKER_USER: unpriv
+  DOCKER_GROUP: unpriv
+  CONTAINER_NET_NAME: "template_net"
+  APP_BASE: "/app/"
+  CONTAINER_LOG_DIR: "/logs/"
+  DATA_DIR: "/fafa/"
+  LOG_DIR_PREFIX: "/var/log/fafa/"
+  CONTAINER_PORT: 0
+  LISTEN_PORT: 0
+  DEPLOY_SRV: 0.0.0.0
+  DOCKERFILE: "Dockerfile"
+  COMPOSE_BASE: "."
+  DATA_UID: 101000
+  DATA_GID: 101000
+
+.job:
+  tags:
+    - fafa_runner
+  image: docker:24.0.2
+  services:
+    - docker:24.0.2-dind
+
+
+.node_get_version:
+  extends: .job
+  stage: versioning
+  image: 45.81.17.109:8084/jq:latest
+  script:
+    - export VERSION_PRE=$(cat package.json | jq -r .version)
+    - export APP_VERSION=${VERSION_PRE}.${CI_PIPELINE_IID}
+    - echo 'APP_VERSION='${APP_VERSION} > version.env
+  artifacts:
+    reports:
+      dotenv: version.env
+  
+.build:
+  extends: .job
+  stage: build
+  image: docker:24.0.2
+  variables:
+    APP_VERSION: "1.0"
+  before_script:
+    - export DOCKER_IMG="${NEXUS_ADDR}/${SERVICE_NAME}-${PRODUCT_NAME}-${ENVIRON}:${APP_VERSION}"
+    - docker login -u ${NEXUS_USER} -p ${NEXUS_PASSWD} ${NEXUS_ADDR}
+  script:
+    - >
+      docker build --force-rm
+      -f ${DOCKERFILE}
+      -t ${DOCKER_IMG}
+      .
+    - docker push ${DOCKER_IMG}
+    - docker rmi ${DOCKER_IMG}
+  after_script:
+    - docker logout ${NEXUS_ADDR}
+
+
+
+.deploy:
+  extends: .job
+  stage: deploy
+  image: docker:24.0.2
+  variables:
+    APP_VERSION: "1.0"
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_KEY_PATH" | ssh-add -
+  script:
+    - >
+      ssh -p ${REMOTE_SSH_PORT}
+      -o StrictHostKeyChecking=no ${REMOTE_SSH_USER}@${DEPLOY_SRV}
+      "mkdir -p /home/${REMOTE_SSH_USER}/${CONTAINER_NAME}/{env,templates}"
+    - scp -P ${REMOTE_SSH_PORT} -o StrictHostKeyChecking=no ${COMPOSE_BASE}/${COMPOSE_CONFIG_FILE} ${REMOTE_SSH_USER}@${DEPLOY_SRV}:~/${CONTAINER_NAME}/templates/${COMPOSE_CONFIG_FILE}.template
+    - "[ -n \"${LOG_CONFIG}\" ] && scp -P ${REMOTE_SSH_PORT} -o StrictHostKeyChecking=no ${LOG_CONFIG} ${REMOTE_SSH_USER}@${DEPLOY_SRV}:~/${CONTAINER_NAME}/templates/${LOG_CONFIG}.template"
+    - ssh -p ${REMOTE_SSH_PORT} -o StrictHostKeyChecking=no ${REMOTE_SSH_USER}@${DEPLOY_SRV} "
+
+        set -x
+
+        cd ~/${CONTAINER_NAME} &&
+
+        export COMPOSE_PROJECT_NAME=${PROJ_NAME} &&
+
+        export LOG_CONFIG &&
+
+        export DC_DOCKER_IMG="${NEXUS_ADDR}/${SERVICE_NAME}-${PRODUCT_NAME}-${ENVIRON}:${APP_VERSION}" &&
+        export DC_DOCKER_USER=${DOCKER_USER} &&
+        export DC_DOCKER_GROUP=${DOCKER_GROUP} &&
+
+        export DC_CONTAINER_PORT=${CONTAINER_PORT} &&
+        export DC_LISTEN_PORT=${LISTEN_PORT} &&
+
+        export DC_CONTAINER_LOG_DIR=${CONTAINER_LOG_DIR} &&
+        export DC_LOG_DIR=${LOG_DIR_PREFIX}/${CONTAINER_NAME} &&
+
+        export DC_CONTAINER_NAME=${CONTAINER_NAME} &&
+
+        export DC_CONTAINER_NET_NAME=${CONTAINER_NET_NAME} &&
+
+        export DC_DATA_DIR=${DATA_DIR} &&
+
+        export DC_APP_BASE=${APP_BASE} &&
+
+        export DC_ENV_FILE=${ENV_FILE} &&
+
+        export DC_SERVICE_NAME=${SERVICE_NAME} &&
+        export DC_PRODUCT_NAME=${PRODUCT_NAME} &&
+        export DC_ENVIRON=${ENVIRON} &&
+
+        if [ -n \"${LOG_CONFIG}\" ]; then
+          envsubst < templates/${LOG_CONFIG}.template > ${LOG_CONFIG:-/dev/null};
+        fi &&
+
+        envsubst < templates/${COMPOSE_CONFIG_FILE}.template > ${CONTAINER_NAME}.compose &&
+
+        docker login -u ${NEXUS_USER} -p ${NEXUS_PASSWD} ${NEXUS_ADDR} &&
+        
+        docker network create -d bridge ${CONTAINER_NET_NAME} || true &&
+
+        docker compose --verbose -f ${CONTAINER_NAME}.compose down || true &&
+        docker rmi "${NEXUS_ADDR}/${SERVICE_NAME}-${PRODUCT_NAME}-${ENVIRON}:${APP_VERSION}" || true &&
+        docker compose --verbose -f ${CONTAINER_NAME}.compose up -d"
+
+.stop:
+  extends: .job
+  stage: deploy
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_KEY_PATH" | ssh-add -
+  variables:
+    PROJ_NAME: ${CONTAINER_NAME}
+    GIT_STRATEGY: none
+  script:
+    - ssh -p ${REMOTE_SSH_PORT} -o StrictHostKeyChecking=no ${REMOTE_SSH_USER}@${DEPLOY_SRV} "
+
+        cd ~/${CONTAINER_NAME} &&
+
+        export COMPOSE_PROJECT_NAME=${PROJ_NAME} &&
+
+        if [ -n \"${ADDITIONAL_CMD}\" ]; then
+            bash -vec \"${ADDITIONAL_CMD}\" ;
+        fi &&
+
+        docker compose --verbose -f ${CONTAINER_NAME}.compose down"
+  environment:
+    name: ${CONTAINER_NAME}
+    action: stop
+  when: manual
+
+
